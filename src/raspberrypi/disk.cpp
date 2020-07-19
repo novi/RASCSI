@@ -419,7 +419,7 @@ BOOL FASTCALL DiskTrack::Write(const BYTE *buf, int sec)
 	ASSERT((dt.size >= 8) && (dt.size <= 11));
 	ASSERT((dt.sectors > 0) && (dt.sectors <= 0x100));
 	if (memcmp(buf, &dt.buffer[offset], length) == 0) {
-		// 同じものを書き込もうとしているので、正常終了
+		// Already written the buf, Done
 		return TRUE;
 	}
 
@@ -727,7 +727,7 @@ BOOL FASTCALL DiskCache::Load(int index, int track, DiskTrack *disktrk)
 
 	// Try loading
 	if (!disktrk->Load(sec_path)) {
-		// 失敗
+		// Failure
 		delete disktrk;
 		return FALSE;
 	}
@@ -3273,7 +3273,7 @@ int FASTCALL SCSIMO::Inquiry(
 		return FALSE;
 	}
 
-	// 基本データ
+	// Basic data
 	// buf[0] ... Optical Memory Device
 	// buf[1] ... Removable
 	// buf[2] ... SCSI-2 compliant command system
